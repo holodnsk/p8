@@ -40,4 +40,23 @@ def function():
 
 function()
 
+#Задание Lite
+#1. Выполнить задание уровня ultra-light
+#2. Написать декоратор, замеряющий время выполнение декорируемой функции.
+#3. Сравнить время создания генератора и списка с элементами: натуральные числа от 1 до 1000000 (создание объектов оформить в виде функций).
+import time
+
+def show_time(f):
+  def wrapper(*args, **kwargs):
+    print('time before generation',time.time())
+    f(*args,**kwargs)
+    print('time after generation',time.time())
+  return wrapper
+
+@show_time
+def gen():
+  return [i for i in range(1,1000001)]
+gen()
+
+
 
