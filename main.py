@@ -48,15 +48,23 @@ import time
 
 def show_time(f):
   def wrapper(*args, **kwargs):
-    print('time before generation',time.time())
+    time_before = time.time()
     f(*args,**kwargs)
-    print('time after generation',time.time())
+    time_after = time.time()
+    print(f.__name__,'time',time_after-time_before)
   return wrapper
 
 @show_time
-def gen1():
+def get_list1():
   return [i for i in range(1,1000001)]
-gen1()
+
+@show_time
+def generator1():
+  for i in range(1,1000001):
+    yield (i)
+
+get_list1()
+generator1()
 
 #Задание Pro
 #1. Выполнить задание уровня light
@@ -65,19 +73,25 @@ gen1()
 import psutil
 psutil.Process().memory_info().rss / (1024 * 1024)
 
-
-
 def show_mem(f):
   def wrapper(*args, **kwargs):
     mb_start = psutil.Process().memory_info().rss / (1024 * 1024)
     f(*args,**kwargs)
     mb_end = psutil.Process().memory_info().rss / (1024 * 1024)
-    print('function got megabytes',mb_end-mb_start)
+    print(f.__name__,'got MB',mb_end-mb_start)
   return wrapper
 
+
 @show_mem
-def gen2():
+def get_list2():
   return [i for i in range(1,1000001)]
-gen2()
+
+@show_mem
+def generator2():
+  for i in range(1,1000001):
+    yield (i)
+
+get_list2()
+generator2()
 
 
