@@ -54,9 +54,30 @@ def show_time(f):
   return wrapper
 
 @show_time
-def gen():
+def gen1():
   return [i for i in range(1,1000001)]
-gen()
+gen1()
 
+#Задание Pro
+#1. Выполнить задание уровня light
+#2. Написать декоратор, замеряющий объем оперативной памяти, потребляемый декорируемой функцией.
+#3. 4. Сравнить объем оперативной памяти для функции создания генератора и функции создания списка с элементами: натуральные числа от 1 до 1000000.
+import psutil
+psutil.Process().memory_info().rss / (1024 * 1024)
+
+
+
+def show_mem(f):
+  def wrapper(*args, **kwargs):
+    mb_start = psutil.Process().memory_info().rss / (1024 * 1024)
+    f(*args,**kwargs)
+    mb_end = psutil.Process().memory_info().rss / (1024 * 1024)
+    print('function got megabytes',mb_end-mb_start)
+  return wrapper
+
+@show_mem
+def gen2():
+  return [i for i in range(1,1000001)]
+gen2()
 
 
